@@ -20,7 +20,7 @@ log_path = './log.txt'
 def home():
     return 'Welcome to the Face Recognition API!'
 
-@app.route('/login', methods=['POST'])
+@app.route('/clockin', methods=['POST'])
 def login():
     if 'file' not in request.files:
         return jsonify({'message': 'No file part'}), 400
@@ -43,7 +43,7 @@ def login():
             f.write('{},{},in\n'.format(name, current_time))
         return jsonify({'message': 'Welcome, {}. Time: {}'.format(name, current_time)}), 200
 
-@app.route('/logout', methods=['POST'])
+@app.route('/clockout', methods=['POST'])
 def logout():
     if 'file' not in request.files:
         return jsonify({'message': 'No file part'}), 400
@@ -66,7 +66,7 @@ def logout():
             f.write('{},{},out\n'.format(name, current_time))
         return jsonify({'message': 'Goodbye, {}. Time: {}'.format(name, current_time)}), 200
 
-@app.route('/register', methods=['POST'])
+@app.route('/register-face', methods=['POST'])
 def register():
     if 'file' not in request.files:
         return jsonify({'message': 'No file part'}), 400
@@ -97,7 +97,7 @@ def register():
 
     return jsonify({'message': 'User was registered successfully!'}), 200
 
-@app.route('/delete', methods=['POST'])
+@app.route('/delete-face', methods=['POST'])
 def delete():
     name = request.form.get('name')
     if not name:

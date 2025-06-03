@@ -16,9 +16,9 @@ if not os.path.exists(db_dir):
 # Path to the log file
 log_path = './log.txt'
 
-@app.route('/test', methods=['GET'])
+@app.route('/', methods=['GET'])
 def test():
-    return jsonify({'status': 'ok', 'message': 'API is running'}), 200
+    return jsonify({'status': 'ok', 'message': 'API flask is running'}), 200
 
 @app.route('/register-face', methods=['POST'])
 def register():

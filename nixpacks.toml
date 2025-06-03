@@ -1,0 +1,14 @@
+[phases.setup]
+nixPkgs = [
+  "cmake",
+  "gcc",
+  "gnumake",
+  "pkg-config",
+  "python311Packages.pip", # optional, make sure correct pip version
+]
+
+[phases.install]
+cmds = [
+  "pip install --upgrade pip",
+  "pip install -r requirements.txt"
+]

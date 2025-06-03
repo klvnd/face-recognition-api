@@ -4,10 +4,22 @@ nixPkgs = [
   "gcc",
   "gnumake",
   "pkg-config",
-  "python311Packages.pip", # optional, make sure correct pip version
+  "python311Packages.pip",
+  "python311", # add the python interpreter
 ]
 
 [phases.install]
 cmds = [
+  "python3 -m venv venv",
+  ". venv/bin/activate",
+  "pip install --upgrade pip",
   "pip install -r requirements.txt"
 ]
+
+[phases.build]
+cmds = [
+  ". venv/bin/activate"
+]
+
+[start]
+cmd = ". venv/bin/activate && python app.py"

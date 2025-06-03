@@ -1,24 +1,4 @@
-[phases.setup]
-nixPkgs = [
-  "cmake",
-  "gcc",
-  "gnumake",
-  "pkg-config",
-  "python311Packages.pip",
-  "python311",
-  "python311Packages.gunicorn",
-  "python311Packages.flask",
-  "python311Packages.pillow",
-  "python311Packages.setuptools",
-  "python311Packages.wheel"
-  # Note: face-recognition and face_recognition_models may not be available in nixpkgs,
-  # so you may still need pip for those, but this is the pure Nix way.
-]
-
-[phases.install]
-cmds = [
-  "pip install --break-system-packages -r requirements.txt"
-]
+#nixpacks.toml
 
 [start]
-cmd = "gunicorn app:app --bind 0.0.0.0:5000"
+cmd = "gunicorn app:app"

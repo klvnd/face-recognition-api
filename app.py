@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
 import datetime
 import pickle
@@ -7,6 +8,8 @@ import numpy as np
 import util
 
 app = Flask(__name__)
+
+CORS(app)
 
 # Directory to store database files
 db_dir = './db'

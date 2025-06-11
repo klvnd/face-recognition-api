@@ -11,27 +11,29 @@ def get_face_embeddings(image):
 
 def recognize(img, db_path):
     # it is assumed there will be at most 1 match in the db
-
+    
     embeddings_unknown = face_recognition.face_encodings(img)
     if len(embeddings_unknown) == 0:
-        return 'no_persons_found'
+        return 'no_persons_found', 0.0
     else:
         embeddings_unknown = embeddings_unknown[0]
 
     db_dir = sorted(os.listdir(db_path))
 
-    match = False
-    j = 0
-    while not match and j < len(db_dir):
-        path_ = os.path.join(db_path, db_dir[j])
+    best_score = 0.0
+    best_name = 'unknown_person'
+    for db_file in db_dir:
+        path_ = os.path.join(db_path, db_file)
+        with open(path_, 'rb') as file:
+            embeddings = pickle.load(file)
+        # Calculate distance and convert to similarity (the lower the distance, the higher the similarity)
+        distance = face_recognition.face_distance([embeddings], embeddings_unknown)[0]
+        similarity = max(0.0, 1.0 - distance)  # similarity in range [0, 1]
+        if similarity > best_score:
+            best_score = similarity
+            best_name = db_file[:-7]
 
-        file = open(path_, 'rb')
-        embeddings = pickle.load(file)
-
-        match = face_recognition.compare_faces([embeddings], embeddings_unknown)[0]
-        j += 1
-
-    if match:
-        return db_dir[j - 1][:-7]
+    if best_score > 0.6:  # you can adjust this threshold
+        return best_name, best_score
     else:
-        return 'unknown_person'
+        return 'unknown_person', best_score

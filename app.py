@@ -88,12 +88,13 @@ def check_user():
     image = Image.open(file.stream).convert('RGB')
     image = np.array(image)
 
-    name = util.recognize(image, db_dir)
+    name, score = util.recognize(image, db_dir)
+    percent = round(score * 100, 2)
 
     if name in ['unknown_person', 'no_persons_found']:
-        return jsonify({'recognized': False, 'message': 'Unknown user. Please register new user or try again.'}), 404
+        return jsonify({'recognized': False, 'score': percent, 'message': 'Unknown user. Please register new user or try again.'}), 404
     else:
-        return jsonify({'recognized': True, 'name': name, 'message': 'User recognized'}), 200
+        return jsonify({'recognized': True, 'name': name, 'score': percent, 'message': 'User recognized'}), 200
 
 @app.route('/update-face', methods=['POST'])
 def update():

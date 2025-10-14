@@ -1,3 +1,6 @@
+import os, face_recognition_models
+os.environ["FACE_RECOGNITION_MODELS"] = face_recognition_models.__path__[0]
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
